@@ -1,5 +1,6 @@
 package com.linuxluigi.opendecibelmeter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -81,9 +82,13 @@ public class MeasureActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            // go to login activity
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_gallery) {
-
+            // go to login activity
+            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
