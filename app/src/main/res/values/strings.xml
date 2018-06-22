@@ -38,5 +38,6 @@
     <string name="label_username">Username</string>
     <string name="label_email">E-Mail</string>
     <string name="button_logout">Logout</string>
+    <string name="title_activity_view_log">ViewLogActivity</string>
 
 </resources>

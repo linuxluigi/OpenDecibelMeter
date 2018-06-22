@@ -37,6 +37,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.linuxluigi.opendecibelmeter.MeasureActivity" />
         </activity>
+        <activity
+            android:name=".ViewLogActivity"
+            android:label="@string/title_activity_view_log"
+            android:parentActivityName=".MeasureActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.linuxluigi.opendecibelmeter.MeasureActivity" />
+        </activity>
     </application>
 
 </manifest>
