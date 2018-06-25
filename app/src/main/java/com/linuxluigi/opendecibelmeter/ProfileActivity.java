@@ -9,11 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.linuxluigi.opendecibelmeter.api.Client;
 import com.linuxluigi.opendecibelmeter.models.Boxes;
 import com.linuxluigi.opendecibelmeter.models.SingleBox;
+import com.linuxluigi.opendecibelmeter.utli.GravatarUserImage;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -38,10 +41,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
         String token = sp.getString(Client.PREFERENCE_TOKEN, null);
-        Log.d("opensenemap-boxes", "token : " + token);
+        String email = sp.getString(Client.PREFERENCE_EMAIL, null);
+        String username = sp.getString(Client.PREFERENCE_NAME, null);
+
+        // fill user profile
+        new GravatarUserImage((ImageView) findViewById(R.id.userImage))
+                .execute(email);
+        TextView emailText = (TextView) findViewById(R.id.userEmail);
+        emailText.setText(email);
+        TextView usernameText = (TextView) findViewById(R.id.userName);
+        usernameText.setText(username);
 
         // todo move to OpensensemapClient
         Client.get("users/me/boxes", null, token, new JsonHttpResponseHandler() {
