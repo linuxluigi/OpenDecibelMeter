@@ -41,7 +41,7 @@ public class OpensensemapClient {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 Log.d("opensenemap-upload", "onFailure : " + throwable);
                 Log.d("opensenemap-upload", "onFailure : " + message);
-                showToast("Error while uploading box measurement");
+                showToast(message.replaceAll("\"", ""));
             }
 
             @Override

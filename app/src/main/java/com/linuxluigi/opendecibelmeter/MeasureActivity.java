@@ -1,13 +1,17 @@
 package com.linuxluigi.opendecibelmeter;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +23,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.linuxluigi.opendecibelmeter.api.Client;
+import com.linuxluigi.opendecibelmeter.api.OpensensemapClient;
+import com.linuxluigi.opendecibelmeter.db.DecibelContract;
+import com.linuxluigi.opendecibelmeter.db.DecibelDbHelper;
+import com.linuxluigi.opendecibelmeter.models.SingleBox;
 import com.linuxluigi.opendecibelmeter.utli.GravatarUserImage;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MeasureActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +52,30 @@ public class MeasureActivity extends AppCompatActivity
     EditText latituteEditText;
     EditText longitudeEditText;
 
+    // decibel view
+    TextView mStatusView;
+    EditText calibarteForm;
+
+    // settings for recording
+    Boolean calibarteDevice = false;
+    Boolean logEnable = false;
+    Boolean autoUpload = false;
+    Boolean autoUpdateCalibration = false;
+
+    // decibel meter process vars
+    MediaRecorder mRecorder;
+    Thread runner;
+    private static double mEMA = 0.0;
+    static final private double EMA_FILTER = 0.6;
+
+    private static final String PREFERENCE_DEVICE_BASE = "device-base";
+    private static final String PREFERENCE_DEVICE_AMPLITUDE = "amplitude";
+
+    // saving last 600 records for calculating the average
+    List<Double> recordStack;
+
+    // record data
+    SingleBox box;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +96,34 @@ public class MeasureActivity extends AppCompatActivity
         // set ui Elements to private vars
         latituteEditText = findViewById(R.id.positionLatitude);
         longitudeEditText = findViewById(R.id.positionLongitude);
+        calibarteForm = findViewById(R.id.calibrateForm);
 
         // set action listener
         setButtons();
 
         // update user profile on nav bar
         updateUserProfile();
+
+        // update token
+        refreshAuthToken();
+
+        // start background process for decibel meter
+        mStatusView = findViewById(R.id.decibelView);
+        if (runner == null) {
+            runner = new Thread() {
+                public void run() {
+                    while (runner != null) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                        }
+                        mHandler.post(updater);
+                    }
+                }
+            };
+            runner.start();
+            Log.d("Noise", "start runner()");
+        }
     }
 
     @Override
@@ -87,13 +151,11 @@ public class MeasureActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_slideshow) {
-            // go to log activity
-            Intent i = new Intent(getApplicationContext(), ViewLogActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_manage) {
             // go to graph activity
             Intent i = new Intent(getApplicationContext(), GraphActivity.class);
             startActivity(i);
+        } else if (id == R.id.nav_manage) {
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -153,6 +215,209 @@ public class MeasureActivity extends AppCompatActivity
                 longitudeEditText.setText(String.valueOf(logitute));
             }
         });
+
+        // calibrate device Button
+        final Button calibrateBtn = findViewById(R.id.calibrateBtn);
+        calibrateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout calibrateView = (LinearLayout) findViewById(R.id.calibrateView);
+                SharedPreferences sp = getSharedPreferences(PREFERENCE_DEVICE_BASE, MODE_PRIVATE);
+
+                if (calibarteDevice) {
+                    // save Amplitude
+                    // change button text
+                    calibrateBtn.setText("Calibrate Device");
+
+                    // save Amplitude
+                    SharedPreferences.Editor Ed = sp.edit();
+                    Ed.putFloat(PREFERENCE_DEVICE_AMPLITUDE, (float) Double.parseDouble(calibarteForm.getText().toString()));
+                    Ed.apply();
+
+                    calibrateView.setVisibility(View.INVISIBLE);
+                } else {
+                    // change button text
+                    calibrateBtn.setText("Save Amplitude");
+
+                    calibrateView.setVisibility(View.VISIBLE);
+
+                    calibarteForm.setText(String.format("%s", sp.getFloat(PREFERENCE_DEVICE_AMPLITUDE, 0)));
+                }
+
+                calibarteDevice = !calibarteDevice;
+            }
+        });
+
+        // log Button (Start / Stop)
+        final Button logBtn = findViewById(R.id.logBtn);
+        logBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (logEnable) {
+                    // change button text
+                    logBtn.setText("Start Logging");
+                } else {
+                    // change button text
+                    logBtn.setText("Stop Logging");
+
+                    SharedPreferences sp = getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+                    box = new SingleBox(
+                            sp.getString(Client.PREFERENCE_BOX_NAME, ""),
+                            sp.getString(Client.PREFERENCE_BOX_ID, ""),
+                            sp.getString(Client.PREFERENCE_SENSOR_ID, "")
+                    );
+
+                    // reset recordStack
+                    recordStack = new ArrayList<>();
+                }
+                logEnable = !logEnable;
+            }
+        });
+
+        // auto upload switch
+        Switch autoUploadSwitch = (Switch) findViewById(R.id.autoUploadSwitch);
+        autoUploadSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                autoUpload = isChecked;
+            }
+        });
+
+        // auto update calibration switch
+        Switch autoUpdateCalibrationSwitch = (Switch) findViewById(R.id.autoUpdate);
+        autoUpdateCalibrationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                autoUpdateCalibration = isChecked;
+            }
+        });
+    }
+
+    final Runnable updater = new Runnable() {
+
+        public void run() {
+            try {
+                updateView();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    final Handler mHandler = new Handler();
+
+    public void onResume() {
+        super.onResume();
+        startRecorder();
+    }
+
+    public void onPause() {
+        super.onPause();
+        stopRecorder();
+    }
+
+
+    public void startRecorder() {
+        if (mRecorder == null) {
+            mRecorder = new MediaRecorder();
+            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mRecorder.setOutputFile("/dev/null");
+            try {
+                mRecorder.prepare();
+            } catch (java.io.IOException ioe) {
+                android.util.Log.e("[Monkey]", "IOException: " +
+                        android.util.Log.getStackTraceString(ioe));
+
+            } catch (java.lang.SecurityException e) {
+                android.util.Log.e("[Monkey]", "SecurityException: " +
+                        android.util.Log.getStackTraceString(e));
+            }
+            try {
+                mRecorder.start();
+            } catch (java.lang.SecurityException e) {
+                android.util.Log.e("[Monkey]", "SecurityException: " +
+                        android.util.Log.getStackTraceString(e));
+            }
+
+            //mEMA = 0.0;
+        }
+
+    }
+
+    public void stopRecorder() {
+        if (mRecorder != null) {
+            mRecorder.stop();
+            mRecorder.release();
+            mRecorder = null;
+        }
+    }
+
+    public void updateView() throws JSONException {
+
+        if (this.calibarteDevice && this.autoUpdateCalibration) {
+            Log.i("Noise", "AmplitudeEMA " + getAmplitudeEMA());
+            calibarteForm.setText(String.format("%s", getAmplitudeEMA()));
+        }
+
+        SharedPreferences sp = this.getSharedPreferences(PREFERENCE_DEVICE_BASE, MODE_PRIVATE);
+        double amplitude = (double) sp.getFloat(PREFERENCE_DEVICE_AMPLITUDE, 0.1f);
+
+        double decibel = soundDb(amplitude);
+        mStatusView.setText(String.format("%s dB", (int) decibel));
+        Log.i("Noise", "db " + Double.toString(soundDb(3.0)));
+
+        if (logEnable) {
+            recordStack.add(decibel);
+
+            if (recordStack.size() >= 600) {
+
+                double average = 0;
+
+                for (int i = 0; i < recordStack.size(); i++) {
+                    average += recordStack.get(i);
+                }
+                average = average / recordStack.size();
+                recordStack = new ArrayList<>();
+
+                // update box
+                box.setDecibel(average);
+                box.setLatitude(Double.parseDouble(this.latituteEditText.getText().toString()));
+                box.setLongitude(Double.parseDouble(this.longitudeEditText.getText().toString()));
+
+                insertLogEntry(box);
+
+                if (autoUpload) {
+                    sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+                    String token = sp.getString(Client.PREFERENCE_TOKEN, null);
+
+                    OpensensemapClient opensensemapClient = new OpensensemapClient(this);
+                    opensensemapClient.uploadData(box, token);
+                }
+            }
+        }
+
+    }
+
+    public double soundDb(double ampl) {
+        double decibel = 20 * Math.log10(getAmplitudeEMA() / ampl);
+        if (decibel < 0) {
+            return 0;
+        } else {
+            return decibel;
+        }
+    }
+
+    public double getAmplitude() {
+        if (mRecorder != null)
+            return (mRecorder.getMaxAmplitude());
+        else
+            return 0;
+
+    }
+
+    public double getAmplitudeEMA() {
+        double amp = getAmplitude();
+        mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
+        return mEMA;
     }
 
     public void updateUserProfile() {
@@ -173,5 +438,42 @@ public class MeasureActivity extends AppCompatActivity
         userNameView.setText(userName);
         TextView userEmailView = headerView.findViewById(R.id.userEmail);
         userEmailView.setText(userEmail);
+    }
+
+    /**
+     * Get user input from editor and save new pet into database.
+     */
+    private void insertLogEntry(SingleBox singleBox) {
+        // Create database helper
+        DecibelDbHelper mDbHelper = new DecibelDbHelper(this);
+
+        // Gets the database in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a ContentValues object where column names are the keys,
+        // and pet attributes from the editor are the values.
+        ContentValues values = new ContentValues();
+        values.put(DecibelContract.LogEntry.COLUMN_LOG_DECIBEL, singleBox.getDecibel());
+        values.put(DecibelContract.LogEntry.COLUMN_LOG_LATITUDE, singleBox.getLatitude());
+        values.put(DecibelContract.LogEntry.COLUMN_LOG_LONGITUTE, singleBox.getLongitude());
+
+        // Insert a new row for pet in the database, returning the ID of that new row.
+        long newRowId = db.insert(DecibelContract.LogEntry.TABLE_NAME, null, values);
+
+        // Show a toast message depending on whether or not the insertion was successful
+        if (newRowId == -1) {
+            // If the row ID is -1, then there was an error with insertion.
+            Toast.makeText(this, getResources().getString(R.string.error_db_record), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void refreshAuthToken() {
+        SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+        String refreshToken = sp.getString(Client.PREFERENCE_REFRESH_TOKEN, null);
+
+        if (refreshToken != null) {
+            OpensensemapClient opensensemapClient = new OpensensemapClient(this);
+            opensensemapClient.refreshAuthToken(refreshToken, sp);
+        }
     }
 }

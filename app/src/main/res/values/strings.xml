@@ -15,10 +15,13 @@
     <string name="measure_latitude">Latitude</string>
     <string name="measure_longitude">Longitude</string>
     <string name="measure_auto_upload">auto upload data</string>
+    <string name="measure_auto_update">auto update</string>
     <string name="title_activity_measure">MeasureActivity</string>
     <string name="update_location">update location</string>
     <string name="default_username">anonymous user</string>
     <string name="default_email">User</string>
+    <string name="error_db_record">Error with saving log</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

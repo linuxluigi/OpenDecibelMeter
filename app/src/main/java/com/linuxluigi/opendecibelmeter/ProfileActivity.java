@@ -127,6 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                 // save box & sensor id
                 SharedPreferences sp = getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
                 SharedPreferences.Editor Ed = sp.edit();
+                Ed.putString(Client.PREFERENCE_BOX_NAME, box.getBoxName());
                 Ed.putString(Client.PREFERENCE_BOX_ID, box.getBoxId());
                 Ed.putString(Client.PREFERENCE_SENSOR_ID, box.getSensorId());
                 Ed.apply();

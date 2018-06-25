@@ -70,4 +70,16 @@ public class SingleBox {
     public void setDecibel(double decibel) {
         this.decibel = decibel;
     }
+
+    @Override
+    public String toString() {
+        return "SingleBox{" +
+                "boxName='" + boxName + '\'' +
+                ", boxId='" + boxId + '\'' +
+                ", sensorId='" + sensorId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", decibel=" + decibel +
+                '}';
+    }
 }

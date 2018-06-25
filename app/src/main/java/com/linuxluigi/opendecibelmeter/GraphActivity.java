@@ -25,6 +25,8 @@ public class GraphActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         DecibelDbHelper mDbHelper = new DecibelDbHelper(this);
         List<LogEntry> logList = DecibelsQueries.getAllRows(mDbHelper);
 

@@ -19,6 +19,7 @@ public class Client {
     public static final String PREFERENCE_REFRESH_TOKEN = "refresh-token";
     public static final String PREFERENCE_NAME = "username";
     public static final String PREFERENCE_BOX_ID = "box-id";
+    public static final String PREFERENCE_BOX_NAME = "box-name";
     public static final String PREFERENCE_SENSOR_ID = "sensor-id";
 
 
