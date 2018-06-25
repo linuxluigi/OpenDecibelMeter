@@ -208,8 +208,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    Log.d("asd", "onFailure : " + throwable);
-                    Log.d("asd", "onFailure : " + jsonObject.toString());
+                    Log.d("opensenemap-login", "onFailure : " + throwable);
+                    Log.d("opensenemap-login", "onFailure : " + jsonObject.toString());
                     try {
                         Snackbar.make(mLoginFormView, jsonObject.getString("message"), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();

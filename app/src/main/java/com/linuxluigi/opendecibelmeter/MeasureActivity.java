@@ -3,11 +3,13 @@ package com.linuxluigi.opendecibelmeter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.linuxluigi.opendecibelmeter.api.Client;
+import com.linuxluigi.opendecibelmeter.utli.GravatarUserImage;
 
 public class MeasureActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,6 +57,9 @@ public class MeasureActivity extends AppCompatActivity
 
         // set action listener
         setButtons();
+
+        // update user profile on nav bar
+        updateUserProfile();
     }
 
     @Override
@@ -142,5 +153,25 @@ public class MeasureActivity extends AppCompatActivity
                 longitudeEditText.setText(String.valueOf(logitute));
             }
         });
+    }
+
+    public void updateUserProfile() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        LinearLayout headerView = (LinearLayout) navigationView.getHeaderView(0);
+
+        // get user data from SharedPreferences
+        SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+        String userEmail = sp.getString(Client.PREFERENCE_EMAIL, getResources().getString(R.string.default_email));
+        String userName = sp.getString(Client.PREFERENCE_NAME, getResources().getString(R.string.default_username));
+
+        // display current user in nav menu
+        new GravatarUserImage((ImageView) headerView.findViewById(R.id.userImage))
+                .execute(userEmail);
+        TextView userNameView = headerView.findViewById(R.id.userName);
+        userNameView.setText(userName);
+        TextView userEmailView = headerView.findViewById(R.id.userEmail);
+        userEmailView.setText(userEmail);
     }
 }

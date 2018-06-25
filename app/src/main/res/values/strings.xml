@@ -2,9 +2,8 @@
     <string name="app_name">OpenDecibelMeter</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_username">User</string>
+    <string name="nav_header_email">mail@anonymous</string>
     <string name="action_settings">Settings</string>
 
     <!-- Strings related to measure activity -->
@@ -12,12 +11,14 @@
     <string name="measure_calibrate">Calibrate Device</string>
     <string name="measure_logging_start">Start Logging</string>
     <string name="measure_logging_stop">Stop Logging</string>
-    <string name="measure_position">Position</string>
+    <string name="measure_location">Location</string>
     <string name="measure_latitude">Latitude</string>
     <string name="measure_longitude">Longitude</string>
     <string name="measure_auto_upload">auto upload data</string>
     <string name="title_activity_measure">MeasureActivity</string>
     <string name="update_location">update location</string>
+    <string name="default_username">anonymous user</string>
+    <string name="default_email">User</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
