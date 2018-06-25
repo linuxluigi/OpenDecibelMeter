@@ -80,7 +80,9 @@ public class MeasureActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), ViewLogActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_manage) {
-
+            // go to graph activity
+            Intent i = new Intent(getApplicationContext(), GraphActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

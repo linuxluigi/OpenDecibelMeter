@@ -50,6 +50,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.linuxluigi.opendecibelmeter.MeasureActivity" />
         </activity>
+        <activity
+            android:name=".GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".MeasureActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.linuxluigi.opendecibelmeter.MeasureActivity" />
+        </activity>
     </application>
 
 </manifest>
