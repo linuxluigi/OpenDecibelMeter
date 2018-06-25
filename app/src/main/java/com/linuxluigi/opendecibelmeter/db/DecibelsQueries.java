@@ -3,7 +3,7 @@ package com.linuxluigi.opendecibelmeter.db;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.linuxluigi.decibelmetermonitor.models.LogEntry;
+import com.linuxluigi.opendecibelmeter.models.LogEntry;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

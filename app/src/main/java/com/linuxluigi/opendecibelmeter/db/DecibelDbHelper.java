@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.linuxluigi.decibelmetermonitor.data.DecibelContract.LogEntry;
+import com.linuxluigi.opendecibelmeter.db.DecibelContract.LogEntry;
 
 public class DecibelDbHelper extends SQLiteOpenHelper {
 
