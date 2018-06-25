@@ -17,6 +17,7 @@
     <string name="measure_longitude">Longitude</string>
     <string name="measure_auto_upload">auto upload data</string>
     <string name="title_activity_measure">MeasureActivity</string>
+    <string name="update_location">update location</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
