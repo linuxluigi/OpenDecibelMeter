@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -99,12 +101,25 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
 
+        });
 
+        // logout Button
+        final Button logoutBtn = findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
+            public void onClick(View view) {
+                // delete user data
+                SharedPreferences sp = getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+                SharedPreferences.Editor Ed = sp.edit();
+                Ed.putString(Client.PREFERENCE_TOKEN, null);
+                Ed.putString(Client.PREFERENCE_EMAIL, null);
+                Ed.putString(Client.PREFERENCE_NAME, null);
+                Ed.putString(Client.PREFERENCE_REFRESH_TOKEN, null);
+                Ed.apply();
 
+                // go back to MeasureActivity
+                startActivity(new Intent(getApplicationContext(), MeasureActivity.class));
+            }
         });
     }
 
