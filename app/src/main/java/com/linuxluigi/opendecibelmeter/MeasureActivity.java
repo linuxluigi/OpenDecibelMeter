@@ -12,16 +12,16 @@ import android.location.LocationManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -37,12 +37,10 @@ import com.linuxluigi.opendecibelmeter.db.DecibelContract;
 import com.linuxluigi.opendecibelmeter.db.DecibelDbHelper;
 import com.linuxluigi.opendecibelmeter.models.SingleBox;
 import com.linuxluigi.opendecibelmeter.utli.GravatarUserImage;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MeasureActivity extends AppCompatActivity
@@ -142,24 +140,18 @@ public class MeasureActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_login) {
             // go to login activity
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_profile) {
             // go to profile activity
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_graph) {
             // go to graph activity
             Intent i = new Intent(getApplicationContext(), GraphActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

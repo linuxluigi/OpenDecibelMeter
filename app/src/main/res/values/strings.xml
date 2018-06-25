@@ -5,6 +5,9 @@
     <string name="nav_header_username">User</string>
     <string name="nav_header_email">mail@anonymous</string>
     <string name="action_settings">Settings</string>
+    <string name="nav_login">Login</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_graph">Graph</string>
 
     <!-- Strings related to measure activity -->
     <string name="measure_get_position">get position</string>
