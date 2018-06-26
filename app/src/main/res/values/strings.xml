@@ -49,4 +49,25 @@
     <string name="title_activity_view_log">ViewLogActivity</string>
     <string name="title_activity_graph">GraphActivity</string>
 
+    <!-- Noise level -->
+    <string name="noise_0">healthy hearing threshold</string>
+    <string name="noise_10">a pin dropping</string>
+    <string name="noise_20">rustling leaves</string>
+    <string name="noise_30">whisper</string>
+    <string name="noise_40">babbling brook</string>
+    <string name="noise_50">light traffic</string>
+    <string name="noise_60">conversational speech</string>
+    <string name="noise_70">shower</string>
+    <string name="noise_80">alarm clock</string>
+    <string name="noise_90">car engine</string>
+    <string name="noise_100">motorcycle (riding)</string>
+    <string name="noise_110">roaring lion</string>
+    <string name="noise_120">thunderclap</string>
+    <string name="noise_130">peak stadium crowd noise</string>
+    <string name="noise_140">jet engine at takeoff</string>
+    <string name="noise_150">fighter jet launch</string>
+    <string name="noise_160">shotgun</string>
+    <string name="noise_170">safety airbag</string>
+    <string name="noise_180">rocket launch</string>
+
 </resources>

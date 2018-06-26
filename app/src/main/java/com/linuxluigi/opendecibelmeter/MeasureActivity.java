@@ -112,7 +112,7 @@ public class MeasureActivity extends AppCompatActivity
                 public void run() {
                     while (runner != null) {
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(200);
                         } catch (InterruptedException e) {
                         }
                         mHandler.post(updater);
@@ -226,7 +226,7 @@ public class MeasureActivity extends AppCompatActivity
                     Ed.putFloat(PREFERENCE_DEVICE_AMPLITUDE, (float) Double.parseDouble(calibarteForm.getText().toString()));
                     Ed.apply();
 
-                    calibrateView.setVisibility(View.INVISIBLE);
+                    calibrateView.setVisibility(View.GONE);
                 } else {
                     // change button text
                     calibrateBtn.setText("Save Amplitude");
@@ -279,6 +279,21 @@ public class MeasureActivity extends AppCompatActivity
         autoUpdateCalibrationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autoUpdateCalibration = isChecked;
+            }
+        });
+
+        // location view btn
+        final Button locationBtn = findViewById(R.id.locationBtn);
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final LinearLayout locationView = findViewById(R.id.locationView);
+
+                if (locationView.getVisibility() == View.VISIBLE) {
+                    locationView.setVisibility(View.GONE);
+                } else {
+                    locationView.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -356,6 +371,9 @@ public class MeasureActivity extends AppCompatActivity
         double decibel = soundDb(amplitude);
         mStatusView.setText(String.format("%s dB", (int) decibel));
         Log.i("Noise", "db " + Double.toString(soundDb(3.0)));
+
+        // update noise level view
+        updateNoiseLevel((int) decibel);
 
         if (logEnable) {
             recordStack.add(decibel);
@@ -466,6 +484,71 @@ public class MeasureActivity extends AppCompatActivity
         if (refreshToken != null) {
             OpensensemapClient opensensemapClient = new OpensensemapClient(this);
             opensensemapClient.refreshAuthToken(refreshToken, sp);
+        }
+    }
+
+    private void updateNoiseLevel (int decibel) {
+
+        TextView noiseText = (TextView) findViewById(R.id.noiseText);
+        ImageView noiseImage = (ImageView) findViewById(R.id.noiseImage);
+
+        if (decibel < 10) {
+            noiseText.setText(R.string.noise_0);
+            noiseImage.setImageResource(R.drawable.noise_0);
+        } else if (decibel < 20){
+            noiseText.setText(R.string.noise_10);
+            noiseImage.setImageResource(R.drawable.noise_10);
+        } else if (decibel < 30){
+            noiseText.setText(R.string.noise_20);
+            noiseImage.setImageResource(R.drawable.noise_20);
+        } else if (decibel < 40){
+            noiseText.setText(R.string.noise_30);
+            noiseImage.setImageResource(R.drawable.noise_30);
+        } else if (decibel < 50){
+            noiseText.setText(R.string.noise_40);
+            noiseImage.setImageResource(R.drawable.noise_40);
+        } else if (decibel < 60){
+            noiseText.setText(R.string.noise_50);
+            noiseImage.setImageResource(R.drawable.noise_50);
+        } else if (decibel < 70){
+            noiseText.setText(R.string.noise_60);
+            noiseImage.setImageResource(R.drawable.noise_60);
+        } else if (decibel < 80){
+            noiseText.setText(R.string.noise_70);
+            noiseImage.setImageResource(R.drawable.noise_70);
+        } else if (decibel < 90){
+            noiseText.setText(R.string.noise_80);
+            noiseImage.setImageResource(R.drawable.noise_80);
+        } else if (decibel < 100){
+            noiseText.setText(R.string.noise_90);
+            noiseImage.setImageResource(R.drawable.noise_90);
+        } else if (decibel < 110){
+            noiseText.setText(R.string.noise_100);
+            noiseImage.setImageResource(R.drawable.noise_100);
+        } else if (decibel < 120){
+            noiseText.setText(R.string.noise_110);
+            noiseImage.setImageResource(R.drawable.noise_110);
+        } else if (decibel < 130){
+            noiseText.setText(R.string.noise_120);
+            noiseImage.setImageResource(R.drawable.noise_120);
+        } else if (decibel < 140){
+            noiseText.setText(R.string.noise_130);
+            noiseImage.setImageResource(R.drawable.noise_130);
+        } else if (decibel < 150){
+            noiseText.setText(R.string.noise_140);
+            noiseImage.setImageResource(R.drawable.noise_140);
+        } else if (decibel < 160){
+            noiseText.setText(R.string.noise_150);
+            noiseImage.setImageResource(R.drawable.noise_150);
+        } else if (decibel < 170){
+            noiseText.setText(R.string.noise_160);
+            noiseImage.setImageResource(R.drawable.noise_160);
+        } else if (decibel < 180){
+            noiseText.setText(R.string.noise_170);
+            noiseImage.setImageResource(R.drawable.noise_170);
+        } else {
+            noiseText.setText(R.string.noise_180);
+            noiseImage.setImageResource(R.drawable.noise_180);
         }
     }
 }
