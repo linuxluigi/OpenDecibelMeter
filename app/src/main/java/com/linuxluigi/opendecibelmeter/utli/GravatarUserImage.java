@@ -1,5 +1,6 @@
 package com.linuxluigi.opendecibelmeter.utli;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,7 +13,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class GravatarUserImage extends AsyncTask<String, Void, Bitmap> {
-    ImageView bmImage;
+
+    @SuppressLint("StaticFieldLeak")
+    private ImageView bmImage;
 
     public GravatarUserImage(ImageView bmImage) {
         this.bmImage = bmImage;
@@ -43,9 +46,9 @@ public class GravatarUserImage extends AsyncTask<String, Void, Bitmap> {
 
     private String hex(byte[] array) {
         // source: https://de.gravatar.com/site/implement/images/java/
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < array.length; ++i) {
-            sb.append(Integer.toHexString((array[i]
+        StringBuilder sb = new StringBuilder();
+        for (byte anArray : array) {
+            sb.append(Integer.toHexString((anArray
                     & 0xFF) | 0x100).substring(1, 3));
         }
         return sb.toString();
@@ -57,8 +60,7 @@ public class GravatarUserImage extends AsyncTask<String, Void, Bitmap> {
             MessageDigest md =
                     MessageDigest.getInstance("MD5");
             return hex(md.digest(message.getBytes("CP1252")));
-        } catch (NoSuchAlgorithmException e) {
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ignored) {
         }
         return null;
     }

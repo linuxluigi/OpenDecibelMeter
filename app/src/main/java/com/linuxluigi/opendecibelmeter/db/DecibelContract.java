@@ -5,7 +5,8 @@ import android.provider.BaseColumns;
 public class DecibelContract {
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
-    private DecibelContract() {}
+    private DecibelContract() {
+    }
 
     /**
      * Inner class that defines constant values for the log database table.
@@ -13,43 +14,45 @@ public class DecibelContract {
      */
     public static final class LogEntry implements BaseColumns {
 
-        /** Name of database table for pets */
+        /**
+         * Name of database table for pets
+         */
         public final static String TABLE_NAME = "log";
 
         /**
          * Unique ID number for the pet (only for use in the database table).
-         *
+         * <p>
          * Type: INTEGER
          */
         public final static String _ID = BaseColumns._ID;
 
         /**
          * timestamp of the record
-         *
+         * <p>
          * Type: DATETIME
          */
-        public final static String COLUMN_LOG_TIMESTAMP ="timestamp";
+        public final static String COLUMN_LOG_TIMESTAMP = "timestamp";
 
         /**
          * decibel amplitude
-         *
+         * <p>
          * Type: DOUBLE
          */
-        public final static String COLUMN_LOG_DECIBEL ="decibel";
+        public final static String COLUMN_LOG_DECIBEL = "decibel";
 
         /**
          * latitude position of the record
-         *
+         * <p>
          * Type: DOUBLE
          */
-        public final static String COLUMN_LOG_LATITUDE ="latitude";
+        public final static String COLUMN_LOG_LATITUDE = "latitude";
 
         /**
          * longitude position of the record
-         *
+         * <p>
          * Type: DOUBLE
          */
-        public final static String COLUMN_LOG_LONGITUTE ="longitude";
+        public final static String COLUMN_LOG_LONGITUTE = "longitude";
 
     }
 }

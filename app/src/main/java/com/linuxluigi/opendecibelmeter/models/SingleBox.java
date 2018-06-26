@@ -14,37 +14,16 @@ public class SingleBox {
         this.sensorId = sensorId;
     }
 
-    public SingleBox(String boxName, String boxId, String sensorId, double decibel, double latitude, double longitude) {
-        this.boxName = boxName;
-        this.boxId = boxId;
-        this.sensorId = sensorId;
-        this.decibel = decibel;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
     public String getBoxName() {
         return boxName;
-    }
-
-    public void setBoxName(String boxName) {
-        this.boxName = boxName;
     }
 
     public String getBoxId() {
         return boxId;
     }
 
-    public void setBoxId(String boxId) {
-        this.boxId = boxId;
-    }
-
     public String getSensorId() {
         return sensorId;
-    }
-
-    public void setSensorId(String sensorId) {
-        this.sensorId = sensorId;
     }
 
     public double getLatitude() {

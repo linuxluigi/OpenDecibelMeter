@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -38,10 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
         String token = sp.getString(Client.PREFERENCE_TOKEN, null);
@@ -51,24 +51,19 @@ public class ProfileActivity extends AppCompatActivity {
         // fill user profile
         new GravatarUserImage((ImageView) findViewById(R.id.userImage))
                 .execute(email);
-        TextView emailText = (TextView) findViewById(R.id.userEmail);
+        TextView emailText = findViewById(R.id.userEmail);
         emailText.setText(email);
-        TextView usernameText = (TextView) findViewById(R.id.userName);
+        TextView usernameText = findViewById(R.id.userName);
         usernameText.setText(username);
 
         // todo move to OpensensemapClient
         Client.get("users/me/boxes", null, token, new JsonHttpResponseHandler() {
 
-            private int statusCode;
-            private Header[] headers;
-            private byte[] errorResponse;
-            private Throwable e;
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("opensenemap-boxes", "success : " + response);
-                JSONArray boxesArray = null;
-                JSONObject data = null;
+                JSONArray boxesArray;
+                JSONObject data;
                 try {
                     data = (JSONObject) response.get("data");
                     Log.d("opensenemap-boxes", "data : " + data);
@@ -127,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
         // fill spinner
         this.boxesSpinner = findViewById(R.id.boxesSpinner);
         List<String> list = this.boxes.getArrayList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxesSpinner.setAdapter(adapter);
 

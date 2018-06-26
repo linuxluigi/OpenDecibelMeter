@@ -34,9 +34,9 @@ public class Boxes {
     public List<String> getArrayList() {
 
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < this.boxList.length; i++) {
+        for (SingleBox aBoxList : this.boxList) {
             list.add(
-                    this.boxList[i].getBoxName()
+                    aBoxList.getBoxName()
             );
         }
         return list;
@@ -49,9 +49,9 @@ public class Boxes {
      * @return SingleBox Object
      */
     public SingleBox getSingleBoxByName(String boxName) {
-        for (int i = 0; i < this.boxList.length; i++) {
-            if (this.boxList[i].getBoxName().equals(boxName)) {
-                return this.boxList[i];
+        for (SingleBox aBoxList : this.boxList) {
+            if (aBoxList.getBoxName().equals(boxName)) {
+                return aBoxList;
             }
         }
         return null;

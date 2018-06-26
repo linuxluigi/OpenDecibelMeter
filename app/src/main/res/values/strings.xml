@@ -12,6 +12,7 @@
     <!-- Strings related to measure activity -->
     <string name="measure_get_position">get position</string>
     <string name="measure_calibrate">Calibrate Device</string>
+    <string name="measure_save_amplitude">Save Amplitude</string>
     <string name="measure_logging_start">Start Logging</string>
     <string name="measure_logging_stop">Stop Logging</string>
     <string name="measure_location">Location</string>

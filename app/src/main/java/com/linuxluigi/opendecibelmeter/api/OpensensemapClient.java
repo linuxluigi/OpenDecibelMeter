@@ -1,9 +1,7 @@
 package com.linuxluigi.opendecibelmeter.api;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,17 +62,11 @@ public class OpensensemapClient {
 
         Client.post("users/refresh-auth", rp, new JsonHttpResponseHandler() {
 
-            private int statusCode;
-            private Header[] headers;
-            private byte[] errorResponse;
-            private Throwable e;
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("opensenemap-token-refresh", "success : " + response);
-                JSONObject data = null;
-                String token = null;
-                String refreshToken = null;
+                String token;
+                String refreshToken;
                 try {
                     token = response.getString("token");
                     refreshToken = response.getString("refreshToken");

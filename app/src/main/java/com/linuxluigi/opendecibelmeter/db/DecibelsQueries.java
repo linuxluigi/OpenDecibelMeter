@@ -28,16 +28,15 @@ public class DecibelsQueries {
                 DecibelContract.LogEntry.COLUMN_LOG_TIMESTAMP};
 
         // Perform a query on the pets table
-        Cursor cursor = db.query(
+
+        try (Cursor cursor = db.query(
                 DecibelContract.LogEntry.TABLE_NAME,   // The table to query
                 projection,            // The columns to return
                 null,                  // The columns for the WHERE clause
                 null,                  // The values for the WHERE clause
                 null,                  // Don't group the rows
                 null,                  // Don't filter by row groups
-                null);                   // The sort order
-
-        try {
+                null)) {
             // Create a header in the Text View that looks like this:
             //
             // The pets table contains <number of rows in Cursor> pets.
@@ -67,11 +66,10 @@ public class DecibelsQueries {
                 logList.add(log);
 
             }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
         }
+        // Always close the cursor when you're done reading from it. This releases all its
+        // resources and makes it invalid.
+
 
         return logList;
     }

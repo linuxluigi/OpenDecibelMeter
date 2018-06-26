@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -79,16 +80,16 @@ public class MeasureActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // set ui Elements to private vars
@@ -113,7 +114,7 @@ public class MeasureActivity extends AppCompatActivity
                     while (runner != null) {
                         try {
                             Thread.sleep(200);
-                        } catch (InterruptedException e) {
+                        } catch (InterruptedException ignored) {
                         }
                         mHandler.post(updater);
                     }
@@ -126,7 +127,7 @@ public class MeasureActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -136,7 +137,7 @@ public class MeasureActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -154,7 +155,7 @@ public class MeasureActivity extends AppCompatActivity
             startActivity(i);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -213,13 +214,13 @@ public class MeasureActivity extends AppCompatActivity
         calibrateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout calibrateView = (LinearLayout) findViewById(R.id.calibrateView);
+                LinearLayout calibrateView = findViewById(R.id.calibrateView);
                 SharedPreferences sp = getSharedPreferences(PREFERENCE_DEVICE_BASE, MODE_PRIVATE);
 
                 if (calibarteDevice) {
                     // save Amplitude
                     // change button text
-                    calibrateBtn.setText("Calibrate Device");
+                    calibrateBtn.setText(R.string.measure_calibrate);
 
                     // save Amplitude
                     SharedPreferences.Editor Ed = sp.edit();
@@ -229,7 +230,7 @@ public class MeasureActivity extends AppCompatActivity
                     calibrateView.setVisibility(View.GONE);
                 } else {
                     // change button text
-                    calibrateBtn.setText("Save Amplitude");
+                    calibrateBtn.setText(R.string.measure_save_amplitude);
 
                     calibrateView.setVisibility(View.VISIBLE);
 
@@ -247,10 +248,10 @@ public class MeasureActivity extends AppCompatActivity
             public void onClick(View view) {
                 if (logEnable) {
                     // change button text
-                    logBtn.setText("Start Logging");
+                    logBtn.setText(R.string.measure_logging_start);
                 } else {
                     // change button text
-                    logBtn.setText("Stop Logging");
+                    logBtn.setText(R.string.measure_logging_stop);
 
                     SharedPreferences sp = getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
                     box = new SingleBox(
@@ -267,7 +268,7 @@ public class MeasureActivity extends AppCompatActivity
         });
 
         // auto upload switch
-        Switch autoUploadSwitch = (Switch) findViewById(R.id.autoUploadSwitch);
+        Switch autoUploadSwitch = findViewById(R.id.autoUploadSwitch);
         autoUploadSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autoUpload = isChecked;
@@ -275,7 +276,7 @@ public class MeasureActivity extends AppCompatActivity
         });
 
         // auto update calibration switch
-        Switch autoUpdateCalibrationSwitch = (Switch) findViewById(R.id.autoUpdate);
+        Switch autoUpdateCalibrationSwitch = findViewById(R.id.autoUpdate);
         autoUpdateCalibrationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 autoUpdateCalibration = isChecked;
@@ -431,7 +432,7 @@ public class MeasureActivity extends AppCompatActivity
     }
 
     public void updateUserProfile() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         LinearLayout headerView = (LinearLayout) navigationView.getHeaderView(0);
@@ -487,63 +488,63 @@ public class MeasureActivity extends AppCompatActivity
         }
     }
 
-    private void updateNoiseLevel (int decibel) {
+    private void updateNoiseLevel(int decibel) {
 
-        TextView noiseText = (TextView) findViewById(R.id.noiseText);
-        ImageView noiseImage = (ImageView) findViewById(R.id.noiseImage);
+        TextView noiseText = findViewById(R.id.noiseText);
+        ImageView noiseImage = findViewById(R.id.noiseImage);
 
         if (decibel < 10) {
             noiseText.setText(R.string.noise_0);
             noiseImage.setImageResource(R.drawable.noise_0);
-        } else if (decibel < 20){
+        } else if (decibel < 20) {
             noiseText.setText(R.string.noise_10);
             noiseImage.setImageResource(R.drawable.noise_10);
-        } else if (decibel < 30){
+        } else if (decibel < 30) {
             noiseText.setText(R.string.noise_20);
             noiseImage.setImageResource(R.drawable.noise_20);
-        } else if (decibel < 40){
+        } else if (decibel < 40) {
             noiseText.setText(R.string.noise_30);
             noiseImage.setImageResource(R.drawable.noise_30);
-        } else if (decibel < 50){
+        } else if (decibel < 50) {
             noiseText.setText(R.string.noise_40);
             noiseImage.setImageResource(R.drawable.noise_40);
-        } else if (decibel < 60){
+        } else if (decibel < 60) {
             noiseText.setText(R.string.noise_50);
             noiseImage.setImageResource(R.drawable.noise_50);
-        } else if (decibel < 70){
+        } else if (decibel < 70) {
             noiseText.setText(R.string.noise_60);
             noiseImage.setImageResource(R.drawable.noise_60);
-        } else if (decibel < 80){
+        } else if (decibel < 80) {
             noiseText.setText(R.string.noise_70);
             noiseImage.setImageResource(R.drawable.noise_70);
-        } else if (decibel < 90){
+        } else if (decibel < 90) {
             noiseText.setText(R.string.noise_80);
             noiseImage.setImageResource(R.drawable.noise_80);
-        } else if (decibel < 100){
+        } else if (decibel < 100) {
             noiseText.setText(R.string.noise_90);
             noiseImage.setImageResource(R.drawable.noise_90);
-        } else if (decibel < 110){
+        } else if (decibel < 110) {
             noiseText.setText(R.string.noise_100);
             noiseImage.setImageResource(R.drawable.noise_100);
-        } else if (decibel < 120){
+        } else if (decibel < 120) {
             noiseText.setText(R.string.noise_110);
             noiseImage.setImageResource(R.drawable.noise_110);
-        } else if (decibel < 130){
+        } else if (decibel < 130) {
             noiseText.setText(R.string.noise_120);
             noiseImage.setImageResource(R.drawable.noise_120);
-        } else if (decibel < 140){
+        } else if (decibel < 140) {
             noiseText.setText(R.string.noise_130);
             noiseImage.setImageResource(R.drawable.noise_130);
-        } else if (decibel < 150){
+        } else if (decibel < 150) {
             noiseText.setText(R.string.noise_140);
             noiseImage.setImageResource(R.drawable.noise_140);
-        } else if (decibel < 160){
+        } else if (decibel < 160) {
             noiseText.setText(R.string.noise_150);
             noiseImage.setImageResource(R.drawable.noise_150);
-        } else if (decibel < 170){
+        } else if (decibel < 170) {
             noiseText.setText(R.string.noise_160);
             noiseImage.setImageResource(R.drawable.noise_160);
-        } else if (decibel < 180){
+        } else if (decibel < 180) {
             noiseText.setText(R.string.noise_170);
             noiseImage.setImageResource(R.drawable.noise_170);
         } else {
