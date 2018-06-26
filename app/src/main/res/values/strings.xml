@@ -8,6 +8,7 @@
     <string name="nav_login">Login</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_graph">Graph</string>
+    <string name="nav_view_log">Log</string>
 
     <!-- Strings related to measure activity -->
     <string name="measure_get_position">get position</string>

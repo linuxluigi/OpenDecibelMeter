@@ -153,6 +153,10 @@ public class MeasureActivity extends AppCompatActivity
             // go to graph activity
             Intent i = new Intent(getApplicationContext(), GraphActivity.class);
             startActivity(i);
+        } else if(id == R.id.nav_view_log) {
+            // go to view log activity
+            Intent i = new Intent(getApplicationContext(), ViewLogActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
