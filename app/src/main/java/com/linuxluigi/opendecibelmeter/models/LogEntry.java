@@ -3,6 +3,9 @@ package com.linuxluigi.opendecibelmeter.models;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * model for db record
+ */
 public class LogEntry {
 
     private int id;

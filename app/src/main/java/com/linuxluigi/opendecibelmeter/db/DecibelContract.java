@@ -15,12 +15,12 @@ public class DecibelContract {
     public static final class LogEntry implements BaseColumns {
 
         /**
-         * Name of database table for pets
+         * Name of database table for log
          */
         public final static String TABLE_NAME = "log";
 
         /**
-         * Unique ID number for the pet (only for use in the database table).
+         * Unique ID number for the log (only for use in the database table).
          * <p>
          * Type: INTEGER
          */

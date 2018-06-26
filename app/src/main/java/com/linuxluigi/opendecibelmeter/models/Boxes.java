@@ -7,6 +7,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * array of boxes, used for interaction with opensensemap
+ */
 public class Boxes {
     private SingleBox[] boxList;
 

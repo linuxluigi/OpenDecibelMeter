@@ -14,6 +14,9 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+/**
+ * rest request for opensensemap
+ */
 public class OpensensemapClient {
 
     private Context context;
@@ -23,6 +26,13 @@ public class OpensensemapClient {
         this.context = context;
     }
 
+    /**
+     * Upload measurement
+     *
+     * @param box   SingleBox object
+     * @param token auth token from opensensemap
+     * @throws JSONException
+     */
     public void uploadData(SingleBox box, String token) throws JSONException {
 
         RequestParams rp = new RequestParams();
@@ -57,6 +67,12 @@ public class OpensensemapClient {
         });
     }
 
+    /**
+     * refresh the auth token
+     *
+     * @param refreshToken      auth token from opensensemap
+     * @param sharedPreferences preference for saving the new token
+     */
     public void refreshAuthToken(String refreshToken, SharedPreferences sharedPreferences) {
 
         this.sp = sharedPreferences;
@@ -105,6 +121,11 @@ public class OpensensemapClient {
         });
     }
 
+    /**
+     * Show a toast message
+     *
+     * @param message Message witch should be displayed
+     */
     private void showToast(String message) {
         Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show();
     }

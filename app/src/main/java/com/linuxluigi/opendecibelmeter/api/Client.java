@@ -25,6 +25,9 @@ public class Client {
 
     private static AsyncHttpClient client;
 
+    /**
+     * set the client default header
+     */
     private static void initClient() {
         client = new AsyncHttpClient();
         client.addHeader("Accept", "application/json");

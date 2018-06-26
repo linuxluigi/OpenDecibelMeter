@@ -14,6 +14,9 @@ import com.linuxluigi.opendecibelmeter.models.LogEntry;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Simple graph activity, where all db records will be displayed
+ */
 public class GraphActivity extends AppCompatActivity {
 
     @Override

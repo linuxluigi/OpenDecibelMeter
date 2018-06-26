@@ -160,6 +160,9 @@ public class MeasureActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * set all buttons for activity
+     */
     private void setButtons() {
         // get current Position Button
         Button positionBtn = findViewById(R.id.positionBtn);
@@ -311,17 +314,26 @@ public class MeasureActivity extends AppCompatActivity
     };
     final Handler mHandler = new Handler();
 
+    /**
+     * restart recording on resume
+     */
     public void onResume() {
         super.onResume();
         startRecorder();
     }
 
+    /**
+     * pause record on pause
+     */
     public void onPause() {
         super.onPause();
         stopRecorder();
     }
 
 
+    /**
+     * start recoding
+     */
     public void startRecorder() {
         if (mRecorder == null) {
             mRecorder = new MediaRecorder();
@@ -351,6 +363,9 @@ public class MeasureActivity extends AppCompatActivity
 
     }
 
+    /**
+     * stop recording
+     */
     public void stopRecorder() {
         if (mRecorder != null) {
             mRecorder.stop();
@@ -359,6 +374,11 @@ public class MeasureActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * update decibel value view
+     *
+     * @throws JSONException
+     */
     public void updateView() throws JSONException {
 
         if (this.calibarteDevice && this.autoUpdateCalibration) {
@@ -408,6 +428,12 @@ public class MeasureActivity extends AppCompatActivity
 
     }
 
+    /**
+     * calculating decibel from the amplitude
+     *
+     * @param ampl mic amplitude
+     * @return
+     */
     public double soundDb(double ampl) {
         double decibel = 20 * Math.log10(getAmplitudeEMA() / ampl);
         if (decibel < 0) {
@@ -417,6 +443,9 @@ public class MeasureActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * @return
+     */
     public double getAmplitude() {
         if (mRecorder != null)
             return (mRecorder.getMaxAmplitude());
@@ -425,12 +454,20 @@ public class MeasureActivity extends AppCompatActivity
 
     }
 
+    /**
+     * get the mic amplitude
+     *
+     * @return amplitude
+     */
     public double getAmplitudeEMA() {
         double amp = getAmplitude();
         mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
         return mEMA;
     }
 
+    /**
+     * update the user profile in the nav menu
+     */
     public void updateUserProfile() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -452,7 +489,7 @@ public class MeasureActivity extends AppCompatActivity
     }
 
     /**
-     * Get user input from editor and save new pet into database.
+     * Get user input from editor and save new log into database.
      */
     private void insertLogEntry(SingleBox singleBox) {
         // Create database helper
@@ -478,6 +515,9 @@ public class MeasureActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * refresh the auth token from opensensemap
+     */
     private void refreshAuthToken() {
         SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
         String refreshToken = sp.getString(Client.PREFERENCE_REFRESH_TOKEN, null);
@@ -488,6 +528,11 @@ public class MeasureActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * update noise level view (image + text)
+     *
+     * @param decibel decibel value to display
+     */
     private void updateNoiseLevel(int decibel) {
 
         TextView noiseText = findViewById(R.id.noiseText);

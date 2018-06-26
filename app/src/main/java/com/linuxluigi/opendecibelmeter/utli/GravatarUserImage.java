@@ -12,6 +12,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * convert email to gravatar image & bind it to an ImageView
+ */
 public class GravatarUserImage extends AsyncTask<String, Void, Bitmap> {
 
     @SuppressLint("StaticFieldLeak")

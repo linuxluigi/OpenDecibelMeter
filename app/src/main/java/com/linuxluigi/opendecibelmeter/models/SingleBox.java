@@ -1,5 +1,8 @@
 package com.linuxluigi.opendecibelmeter.models;
 
+/**
+ * box for opensensemap
+ */
 public class SingleBox {
     private String boxName;
     private String boxId;

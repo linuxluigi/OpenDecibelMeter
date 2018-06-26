@@ -43,7 +43,7 @@ import java.util.Objects;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via email/password for opensensemap
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 

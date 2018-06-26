@@ -12,6 +12,12 @@ import java.util.List;
 
 public class DecibelsQueries {
 
+    /**
+     * Load all rows from log into a list
+     *
+     * @param mDbHelper database helper class
+     * @return list with all entries from log db
+     */
     public static List<LogEntry> getAllRows(DecibelDbHelper mDbHelper) {
         List<LogEntry> logList = new ArrayList<>();
 
@@ -27,7 +33,7 @@ public class DecibelsQueries {
                 DecibelContract.LogEntry.COLUMN_LOG_LONGITUTE,
                 DecibelContract.LogEntry.COLUMN_LOG_TIMESTAMP};
 
-        // Perform a query on the pets table
+        // Perform a query on the log table
 
         try (Cursor cursor = db.query(
                 DecibelContract.LogEntry.TABLE_NAME,   // The table to query
@@ -37,13 +43,6 @@ public class DecibelsQueries {
                 null,                  // Don't group the rows
                 null,                  // Don't filter by row groups
                 null)) {
-            // Create a header in the Text View that looks like this:
-            //
-            // The pets table contains <number of rows in Cursor> pets.
-            // _id - name - breed - gender - weight
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
 
             // Figure out the index of each column
             int idColumnIndex = cursor.getColumnIndex(DecibelContract.LogEntry._ID);
@@ -69,7 +68,6 @@ public class DecibelsQueries {
         }
         // Always close the cursor when you're done reading from it. This releases all its
         // resources and makes it invalid.
-
 
         return logList;
     }

@@ -29,6 +29,9 @@ import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 
+/**
+ * display user profil from opensenemap
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     Spinner boxesSpinner;
