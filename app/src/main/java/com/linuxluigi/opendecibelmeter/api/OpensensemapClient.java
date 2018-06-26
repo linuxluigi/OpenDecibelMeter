@@ -27,9 +27,14 @@ public class OpensensemapClient {
 
         RequestParams rp = new RequestParams();
         rp.put("value", box.getDecibel());
-        JSONObject location = new JSONObject();
-        location.put("lat", box.getLatitude());
-        location.put("lng", box.getLongitude());
+
+        // only upload the current location if the location in ui was changed
+        if (box.getLatitude() != 0. && box.getLongitude() != 0.) {
+            JSONObject location = new JSONObject();
+            location.put("lat", box.getLatitude());
+            location.put("lng", box.getLongitude());
+        }
+
         rp.setUseJsonStreamer(true);
 
         Client.post("boxes/" + box.getBoxId() + "/" + box.getSensorId(), rp, token, new JsonHttpResponseHandler() {
