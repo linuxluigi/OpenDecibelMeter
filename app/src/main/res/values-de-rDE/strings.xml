@@ -45,6 +45,8 @@
     <string name="title_activity_view_log">Log</string>
     <string name="title_activity_graph">Graph</string>
 
+    <string name="log_delete">Löschen</string>
+
     <!-- Noise level -->
     <string name="noise_0">Hörschwelle</string>
     <string name="noise_10">fallender Stift</string>
