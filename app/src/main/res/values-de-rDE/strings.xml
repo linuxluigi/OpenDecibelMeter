@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open Decibel Meter</string>
+    <string name="navigation_drawer_open">Öffne Menü</string>
+    <string name="navigation_drawer_close">Schließe Menü</string>
+    <string name="nav_login">Login</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_graph">Graph</string>
+    <string name="nav_view_log">Log</string>
+
+    <!-- Strings related to measure activity -->
+    <string name="measure_get_position">lade position</string>
+    <string name="measure_calibrate">Gerät einstellen</string>
+    <string name="measure_save_amplitude">Sichere Amplitude</string>
+    <string name="measure_logging_start">Start loggen</string>
+    <string name="measure_logging_stop">Stop loggen</string>
+    <string name="measure_location">Position</string>
+    <string name="measure_latitude">Latitude</string>
+    <string name="measure_longitude">Longitude</string>
+    <string name="measure_auto_upload">automatisch hochladen</string>
+    <string name="measure_auto_update">automatisch updaten</string>
+    <string name="update_location">update Position</string>
+    <string name="default_username">anonymous user</string>
+    <string name="default_email">User</string>
+    <string name="error_db_record">Fehler mit log speichern</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Passwort</string>
+    <string name="action_sign_in">Einloggen</string>
+    <string name="action_sign_in_short">Einloggen</string>
+    <string name="error_invalid_email">Die Email Adresse ist falsch</string>
+    <string name="error_invalid_password">Das Passwort ist zu kurz</string>
+    <string name="error_incorrect_password">Das Passwort ist falsch</string>
+    <string name="error_field_required">Dieses Feld ist zwingend</string>
+    <string name="login_service_name">Opensenemap.org</string>
+    <string name="title_activity_login">Einloggen</string>
+
+    <!-- Strings related to profile -->
+    <string name="title_activity_profile">Profile</string>
+    <string name="label_username">Username</string>
+    <string name="label_email">E-Mail</string>
+    <string name="button_logout">Logout</string>
+    <string name="title_activity_view_log">Log</string>
+    <string name="title_activity_graph">Graph</string>
+
+    <!-- Noise level -->
+    <string name="noise_0">Hörschwelle</string>
+    <string name="noise_10">fallender Stift</string>
+    <string name="noise_20">raschelnde Blätter</string>
+    <string name="noise_30">flüstern</string>
+    <string name="noise_40">plätschernden Bach</string>
+    <string name="noise_50">leichter verkehr</string>
+    <string name="noise_60">Gespräch</string>
+    <string name="noise_70">duschen</string>
+    <string name="noise_80">Wecker</string>
+    <string name="noise_90">Diesel Automotor</string>
+    <string name="noise_100">fahrendes Motorad</string>
+    <string name="noise_110">brüllender Löwe</string>
+    <string name="noise_120">Donnerschlag</string>
+    <string name="noise_130">volles Stadium</string>
+    <string name="noise_140">Düsentriebwerk beim Start</string>
+    <string name="noise_150">Kampfjet-Start</string>
+    <string name="noise_160">Shotgun</string>
+    <string name="noise_170">Sicherheits-Airbag</string>
+    <string name="noise_180">Raketenstart</string>
+</resources>
