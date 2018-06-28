@@ -146,9 +146,21 @@ public class MeasureActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_profile) {
-            // go to profile activity
-            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(i);
+
+            // check if there exists a auth token for profile
+            SharedPreferences sp = this.getSharedPreferences(Client.PREFERENCE_BASE, MODE_PRIVATE);
+            String token = sp.getString(Client.PREFERENCE_TOKEN, null);
+
+            if (token == null) {
+                // go to login activity
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            } else {
+                // go to profile activity
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(i);
+            }
+
         } else if (id == R.id.nav_graph) {
             // go to graph activity
             Intent i = new Intent(getApplicationContext(), GraphActivity.class);
