@@ -11,10 +11,14 @@ Welcome to OpenDecibelMeter's documentation!
    :caption: Contents:
 
 
+Inhalt
+======
 
-Indices and tables
-==================
+.. toctree::
+   :maxdepth: 2
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   einleitung
+   quickstart
+   app
+   auswertung
+   literaturverzeichnis

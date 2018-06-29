@@ -10,3 +10,4 @@
 .externalNativeBuild
 
 /docs/_build
+*.sav
