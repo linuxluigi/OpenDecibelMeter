@@ -49,7 +49,7 @@ UI Elemente:
 .. index:: UI Elemente
 
 Integrierte Sprachen:
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 - Englisch
 - Deutsch
@@ -108,16 +108,25 @@ Die Dokumentation wurde mit Sphinx :cite:`SphinxHomepage` erstellt und gehostet 
 .. index:: Quellcode
 .. index:: Online Dokumentation
 
-Präsentation
-^^^^^^^^^^^^
+Poster
+^^^^^^
 
-Die Präsentation wurde in LibreOffice Impress erstellt und ist auf `github.com`_ gehostst.
+Das Poster wurde mit https://www.draw.io/ erstellt und ist auf `github.com`_ als PNG & XML gehostst.
 
 .. _github.com: https://github.com/
 
-- Präsentation : `Download Link`_
+- Poster XML : `Poster.xml`_
+- Poster PNG : `Poster.png`_
 
-.. _Download Link: _static/OpenDecibelMeter_prensentation.odp
+.. _Poster.xml: _static/Poster.xml
+.. _Poster.png: _static/Poster.png
 
 .. index:: LibreOffice
 .. index:: Präsentation
+
+.. figure:: _static/Poster.png
+    :alt: OpenDecibelMeter - Poster
+    :align: center
+    :scale: 10%
+
+    OpenDecibelMeter - Poster
