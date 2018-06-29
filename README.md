@@ -5,4 +5,5 @@
 Study project for measure the noise in decibel with an android device witch interact with https://opensensemap.org/
 
 ![Software Design](docs/_static/Lautstaerke.png)
-![App preview](docs/_static/app_start_01.png)
+
+![App preview](docs/_static/Poster.png)
