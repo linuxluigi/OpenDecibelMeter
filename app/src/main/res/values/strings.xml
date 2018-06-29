@@ -49,6 +49,9 @@
     <!-- view log -->
     <string name="title_activity_view_log">Log</string>
     <string name="log_delete">Delete</string>
+    <string name="log_export">Export Data</string>
+    <string name="log_export_success">File was successfully saved in Downloads</string>
+    <string name="log_export_error">Unable to export a file</string>
 
     <!-- Noise level -->
     <string name="noise_0">healthy hearing threshold</string>

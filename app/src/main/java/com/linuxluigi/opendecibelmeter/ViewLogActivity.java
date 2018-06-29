@@ -1,6 +1,8 @@
 package com.linuxluigi.opendecibelmeter;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -8,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+import android.widget.Button;
 
 import com.linuxluigi.opendecibelmeter.db.DecibelDbHelper;
 import com.linuxluigi.opendecibelmeter.db.DecibelsQueries;
@@ -15,6 +19,9 @@ import com.linuxluigi.opendecibelmeter.models.LogEntry;
 import com.linuxluigi.opendecibelmeter.utli.LogAdapter;
 import com.linuxluigi.opendecibelmeter.utli.RecyclerItemTouchHelper;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +65,54 @@ public class ViewLogActivity extends AppCompatActivity implements RecyclerItemTo
         recyclerView.setAdapter(mAdapter);
 
         prepaireLogData();
+
+        // export logList to a csv file in the downloads folder
+        final Button exportBtn = findViewById(R.id.exportData);
+        exportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/decibel.csv");
+
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        throw new RuntimeException("Unable to create File " + e);
+                    }
+                }
+                try {
+                    FileWriter writer = new FileWriter(file);
+                    for (int i = 0; i < logList.size(); i++) {
+                        LogEntry logEntry = logList.get(i);
+
+                        // id
+                        writer.write(logEntry.getId());
+                        writer.write(',');
+
+                        // decibel
+                        writer.write(logEntry.getDecibel().toString());
+                        writer.write(',');
+
+                        // timestamp
+                        writer.write(logEntry.getTimestamp().toString());
+                        writer.write('\n');
+
+                        // id
+                        writer.write(logEntry.getId());
+                        writer.write(',');
+                    }
+                    writer.flush();
+                    writer.close();
+
+                    Snackbar.make(view, getResources().getString(R.string.log_export_success), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } catch (IOException e) {
+                    Snackbar.make(view, getResources().getString(R.string.log_export_error), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    throw new RuntimeException("Unable to write to File " + e);
+                }
+            }
+        });
     }
 
     private void prepaireLogData() {

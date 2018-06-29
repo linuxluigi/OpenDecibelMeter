@@ -46,6 +46,9 @@
     <string name="title_activity_graph">Graph</string>
 
     <string name="log_delete">Löschen</string>
+    <string name="log_export">exportiere Daten</string>
+    <string name="log_export_success">Datei wurde in Downloads gesichert</string>
+    <string name="log_export_error">Fehler während des exportieren der Datei</string>
 
     <!-- Noise level -->
     <string name="noise_0">Hörschwelle</string>
