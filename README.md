@@ -1,6 +1,6 @@
 # Open Decibel Meter
 
-[![Online Documentation](//readthedocs.org/projects/opendecibelmeter/badge/?version=latest)](https://opendecibelmeter.readthedocs.io/de/latest/?badge=latest)
+[![Online Documentation](https://readthedocs.org/projects/opendecibelmeter/badge/?version=latest)](https://opendecibelmeter.readthedocs.io/de/latest/?badge=latest)
 
 Study project for measure the noise in decibel with an android device witch interact with https://opensensemap.org/
 
